@@ -1,3 +1,4 @@
+#!/bin/bash
 ROOT_DIR="./rootdir"
 FTP_ROOT="$ROOT_DIR/ftp-root"
 CFG_FILE="$ROOT_DIR/vsftpd.conf"

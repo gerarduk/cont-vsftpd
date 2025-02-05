@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "Removing existing vsftpd image"
 sudo podman image rm vsftpd
 echo "Creating new fsftpd image"
