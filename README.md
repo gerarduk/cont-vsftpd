@@ -10,4 +10,4 @@
 
 *runftp* creates a directory (rootdir) used to hold the run time files used by the container. It will contain the vsftpd.conf vsftpd.log and the ftp-root directory.
 
-
+A single ftp user is defined: ftpuser:password
