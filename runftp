@@ -1,0 +1,31 @@
+ROOT_DIR="./rootdir"
+FTP_ROOT="$ROOT_DIR/ftp-root"
+CFG_FILE="$ROOT_DIR/vsftpd.conf"
+LOG_FILE="$ROOT_DIR/vsftpd.log"
+
+if [[ ! -e "$ROOT_DIR" ]]; then
+	echo "Creating $ROOT_DIR"
+	mkdir -p $ROOT_DIR || { echo "Failed"; exit 1; }
+fi
+
+if [[ ! -e "$CFG_FILE" ]]; then
+	echo "Creating $CFG_FILE"
+	cp vsftpd.conf $CFG_FILE || { echo "Failed"; exit 1; }
+fi
+
+if [[ ! -e "$FTP_ROOT" ]]; then
+    echo "Creating $FTP_ROOT"
+    mkdir -p "$FTP_ROOT" || { echo "Failed"; exit 1; }
+fi
+
+# Make sure the log file exists
+touch $LOG_FILE
+chmod 777 $LOG_FILE
+chmod -R 777 $ROOT_DIR
+
+sudo podman run -d --name vsftpd \
+  -p 21:21 -p 30000-30010:30000-30010 \
+  -v "$FTP_ROOT":/home/ftpuser \
+  -v "$CFG_FILE":/etc/vsftpd/vsftpd.conf:ro \
+  -v "$LOG_FILE":/var/log/vsftpd.log \
+  localhost/vsftpd
